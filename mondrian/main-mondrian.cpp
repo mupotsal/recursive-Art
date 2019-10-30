@@ -39,6 +39,34 @@ void draw_triangle(ct::Point a, ct::Point b, ct::Point c, ct::Color color, ct::T
     myTurtle.goTo(a.x, a.y);
     myTurtle.end_fill();
 }
+class MondrianArt {
+
+public:
+	MondrianArt();
+		// Constructor should initialize instance variables.
+		// This may include a list of colors you can use, e.g {“white”, “blue”, “red”, “yellow”}
+
+		void  setup_turtle() {
+		}
+		// Moves the turtle to the top left hand side of the screen (goTo -400, -300
+
+		void mondrian() {
+		}
+		// The recursive mondrian function that holds all the steps found above.
+
+
+		void reset() {
+
+		}
+		// Optional. You can use this to keep creating pieces of art until you find one you like!
+		// e.g, turtle.reset()
+
+private:
+	string colorList[];
+	turtleScreen;
+	turtle(must be constructed with turtleScreen);
+};
+
 
 //getMid already defined as "middle" function in C-Turtle namespace :)
 
