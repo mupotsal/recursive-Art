@@ -45,7 +45,7 @@ void draw_triangle(ct::Point a, ct::Point b, ct::Point c, ct::Color color, ct::T
 void sierpinski(ct::Point a, ct::Point b, ct::Point c, int degree, ct::Turtle& myTurtle){
     const std::string colormap[] = {"blue", "red", "green", "white", "yellow", "violet", "orange"};
     draw_triangle(a,b,c, {colormap[degree]}, myTurtle);
-    if(degree > 0){
+    if(degree > 0){ // The base case is 0. When the degree is less than one then the recursion stops.
         sierpinski(a, ct::middle(a, b), ct::middle(a, c), degree - 1, myTurtle);
         sierpinski(b, ct::middle(a, b), ct::middle(b, c), degree - 1, myTurtle);
         sierpinski(c, ct::middle(c, b), ct::middle(a, c), degree - 1, myTurtle);
