@@ -7,12 +7,13 @@
 #include <iostream> //for input & output
 #include <random> //needed for Getrandom
 #include <chrono> //needed for Getrandom's seed
+#include <cmath>
 namespace ct = cturtle;  //This makes it possible to use the CTurtle commands using ct::
 using namespace std;
 
 // The screen is defined below and is the one used by all turtles in the drawings
 ct::TurtleScreen scr; //makes screen
-
+ct::Turtle mand(scr);
 
 class Getrandom {
 	/** Uses <random> and <chrono> from C++11 to return a random integer in range [1..size] */
@@ -46,12 +47,67 @@ void draw_triangle(ct::Point a, ct::Point b, ct::Point c, ct::Color color, ct::T
 //The beginning of the Mondrian art is below
 // opted to using a function instead of a class
 
-	void  setup_turtle() {
-	}
-	// Moves the turtle to the top left hand side of the screen (goTo -400, -300
+void  setup_turtle() {
+	mand.penup();
+	mand.goTo(-400, 300);
+	mand.pendown();
+	mand.forward(800);
+	mand.right(90);
+	mand.forward(600);
+	mand.forward(800);
+	mand.right(90);
+	mand.forward(600);
 
-	void mondrian() {
+
+}
+// Moves the turtle to the top left hand side of the screen (goTo -400, -300
+
+
+
+void draw_horizontal(int x_value, int y_value, int  min_x, int  max_x) {
+	mand.penup();
+	mand.goTo(min_x, y_value);
+	mand.pendown();
+	mand.goTo(max_x, y_value);
+}
+//void draw_vertical(int x, int y, int w, int h) {
+//
+//	mand.penup();
+//	mand.goTo(ran_x, min_y); // remember to change this
+//	mand.pendown();
+//	mand.goTo(ran_x, max_y);
+//	mand.penup();
+//
+//}
+
+void mondrian(int x_value, int y_value, int width, int height, int min_x, int max_x, int min_y, int max_y) {
+
+	while (width <100 && height <100) {
+		draw_horizontal(x_value, y_value, min_x, max_x);
+		return;
 	}
+	Getrandom x_val(x_value - min_x);
+	Getrandom y_val(max_y - y_value);
+	x_value = x_val.roll();
+	y_value = y_val.roll();
+
+	while (width > 0 && height > 0) {
+		draw_horizontal(x_value, y_value, min_x, max_x);
+		mondrian(x_value, y_value, width - 10, height - 10, min_x, max_x, min_y, max_y);
+	}
+
+
+}
+
+	
+
+
+
+
+
+		// The maximum size should be determined
+		//What variables do I need 
+	
 	// The recursive mondrian function that holds all the steps found above.
 
 
@@ -77,13 +133,14 @@ void sierpinski(ct::Point a, ct::Point b, ct::Point c, int degree, ct::Turtle& m
 
 int main() {	
 	ct::Turtle rt(scr);   //makes Turtle on screen
+	setup_turtle();
 
 	Getrandom newrandom(4);
-
+	
 	//graphing commands go below here
 	//ct::Point myPoints[] = { {-200, -100}, {0, 200}, {200, -100} };
 	//sierpinski(myPoints[0], myPoints[1], myPoints[2], newrandom.roll(), rt);
-
+	mondrian(400, 800, 800, 500, 500, 400, -300, 300);
 	scr.exitonclick();  //exists graphics screen
 	return 0;
 }
