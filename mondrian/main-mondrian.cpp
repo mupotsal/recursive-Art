@@ -44,103 +44,88 @@ void draw_triangle(ct::Point a, ct::Point b, ct::Point c, ct::Color color, ct::T
 	myTurtle.end_fill();
 }
 
-//The beginning of the Mondrian art is below
-// opted to using a function instead of a class
 
-void  setup_turtle() {
-	mand.penup();
-	mand.goTo(-400, 300);
-	mand.pendown();
-	mand.forward(800);
-	mand.right(90);
-	mand.forward(600);
-	mand.forward(800);
-	mand.right(90);
-	mand.forward(600);
+void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& turtle) {
+	const std::string colormap[] = { "blue", "red", "green", "white" };
+	Getrandom randcolor(3);
 
+	int randval = randcolor.roll();
+	int randx = rand() % (maxX - minX + 1) + minX;
+	int randy = rand() % (maxY - minY + 1) + minY;
 
-}
-// Moves the turtle to the top left hand side of the screen (goTo -400, -300
-
-
-
-void draw_horizontal(int x_value, int y_value, int  min_x, int  max_x) {
-	mand.penup();
-	mand.goTo(min_x, y_value);
-	mand.pendown();
-	mand.goTo(max_x, y_value);
-}
-//void draw_vertical(int x, int y, int w, int h) {
-//
-//	mand.penup();
-//	mand.goTo(ran_x, min_y); // remember to change this
-//	mand.pendown();
-//	mand.goTo(ran_x, max_y);
-//	mand.penup();
-//
-//}
-
-void mondrian(int x_value, int y_value, int width, int height, int min_x, int max_x, int min_y, int max_y) {
-
-	while (width <100 && height <100) {
-		draw_horizontal(x_value, y_value, min_x, max_x);
-		return;
-	}
-	Getrandom x_val(x_value - min_x);
-	Getrandom y_val(max_y - y_value);
-	x_value = x_val.roll();
-	y_value = y_val.roll();
-
-	while (width > 0 && height > 0) {
-		draw_horizontal(x_value, y_value, min_x, max_x);
-		mondrian(x_value, y_value, width - 10, height - 10, min_x, max_x, min_y, max_y);
-	}
-
-
-}
-
+	turtle.fillcolor(colormap[randval]);
+	turtle.penup();
+	turtle.goTo(minX, maxY);
+	turtle.pendown();
+	turtle.begin_fill();
+	turtle.goTo(maxX, maxY);
+	//turtle.end_fill();
+	turtle.goTo(maxX, minY);
+	turtle.goTo(minX, minY);
 	
 
-
-
-
-
-		// The maximum size should be determined
-		//What variables do I need 
-	
-	// The recursive mondrian function that holds all the steps found above.
-
-
-	void reset() {
+	if ((maxX - minX) > 400 && (maxY - minY) > 300) {
+		mondrain(minX, randx, randy, maxY, turtle);
+		mondrain(randx, maxX, randy, maxY, turtle);
+		mondrain(randx, maxX, minY, randy, turtle);
+		mondrain(minX, randx, minY, randy, turtle);
+	}
+	else if ((maxX - minX) > 400) {
+		mondrain(minX, randx, minY, maxY, turtle);
+		mondrain(randx, maxX, minY, maxY, turtle);
+	}
+	else if ((maxY - minY) > 300) {
+		mondrain(minX, maxX, randy, maxY, turtle);
+		mondrain(minX, maxX, minY, randy, turtle);
+	}
+	else if ((maxX - minX) > 150 && (maxY - minY) > 100) {
+		mondrain(minX, randx, randy, maxY, turtle);
+		mondrain(randx, maxX, randy, maxY, turtle);
+		mondrain(randx, maxX, minY, randy, turtle);
+		mondrain(minX, randx, minY, randy, turtle);
+	}
+	else if ((maxX - minX) > 150) {
+		mondrain(minX, randx, minY, maxY, turtle);
+		mondrain(randx, maxX, minY, maxY, turtle);
 
 	}
-	// Optional. You can use this to keep creating pieces of art until you find one you like!
-	// e.g, turtle.reset()
+	else if ((maxY - minY) > 100) {
+		mondrain(minX, maxX, randy, maxY, turtle);
+		mondrain(minX, maxX, minY, randy, turtle);
+	}
+	else {
+		turtle.penup();		
+		turtle.begin_fill();
+		turtle.goTo(minX, maxY);
+		turtle.pendown();			
+		turtle.goTo(maxX, maxY);		
+		turtle.goTo(maxX, minY);		
+		turtle.goTo(minX, minY);
+		turtle.goTo(minX, maxY);
+		turtle.end_fill();
+		
 
-
-
-//getMid already defined as "middle" function in C-Turtle namespace :)
-
-void sierpinski(ct::Point a, ct::Point b, ct::Point c, int degree, ct::Turtle& myTurtle) {
-	const std::string colormap[] = { "blue", "red", "green", "white", "yellow", "violet", "orange" };
-	draw_triangle(a, b, c, { colormap[degree] }, myTurtle);
-	if (degree > 0) { // The base case is 0. When the degree is less than one then the recursion stops.
-		sierpinski(a, ct::middle(a, b), ct::middle(a, c), degree - 1, myTurtle);
-		sierpinski(b, ct::middle(a, b), ct::middle(b, c), degree - 1, myTurtle);
-		sierpinski(c, ct::middle(c, b), ct::middle(a, c), degree - 1, myTurtle);
 	}
 }
 
-int main() {	
+
+int main() {
+	int min_X = -400;
+	int max_X = 400;
+	int min_Y = -300;
+	int max_Y = 300;
+	ct::TurtleScreen scr; //makes screen
 	ct::Turtle rt(scr);   //makes Turtle on screen
-	setup_turtle();
+
+	mondrain(min_X, max_X, min_Y, max_Y, rt);
+
 
 	Getrandom newrandom(4);
-	
+
 	//graphing commands go below here
-	//ct::Point myPoints[] = { {-200, -100}, {0, 200}, {200, -100} };
+	ct::Point myPoints[] = { {-200, -100}, {0, 200}, {200, -100} };
 	//sierpinski(myPoints[0], myPoints[1], myPoints[2], newrandom.roll(), rt);
-	mondrian(400, 800, 800, 500, 500, 400, -300, 300);
+
 	scr.exitonclick();  //exists graphics screen
 	return 0;
 }
