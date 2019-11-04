@@ -71,7 +71,7 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 	int randy = rand() % (maxY - minY + 1) + minY;
 
 	mond_turtle.fillcolor(colormap[randval]);
-	
+	mond_turtle.width(3);
 	mond_turtle.speed(0);	
 	mond_turtle.penup();
 	mond_turtle.begin_fill();
@@ -122,7 +122,7 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 		mondrain(minX, maxX, minY, randy, mond_turtle);
 
 	 }
-	else if ((maxX - minX) > 10 && (maxY - minY) >15) { // When the height is tall enough to split.
+	else if ((maxX - minX) > 10 && (maxY - minY) >20) { // When the height is tall enough to split.
 		 mondrain(minX, maxX, randy, maxY, mond_turtle);
 		mondrain(minX, maxX, minY, randy, mond_turtle);
 	}
