@@ -32,77 +32,108 @@ private:
 };
 
 
-void draw_triangle(ct::Point a, ct::Point b, ct::Point c, ct::Color color, ct::Turtle& myTurtle) {
-	myTurtle.fillcolor(color);
-	myTurtle.penup();
-	myTurtle.goTo(a.x, a.y);
-	myTurtle.pendown();
-	myTurtle.begin_fill();
-	myTurtle.goTo(c.x, c.y);
-	myTurtle.goTo(b.x, b.y);
-	myTurtle.goTo(a.x, a.y);
-	myTurtle.end_fill();
+void draw_triangle(ct::Point a, ct::Point b, ct::Point c, ct::Color color, ct::Turtle& mond_turtle) {
+	mond_turtle.fillcolor(color);
+	mond_turtle.penup();
+	mond_turtle.goTo(a.x, a.y);
+	mond_turtle.pendown();
+	mond_turtle.begin_fill();
+	mond_turtle.goTo(c.x, c.y);
+	mond_turtle.goTo(b.x, b.y);
+	mond_turtle.goTo(a.x, a.y);
+	mond_turtle.end_fill();
 }
 
+void draw_rectangle(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) { // drawing the screen rectangle.
+	mond_turtle.penup();
+	mond_turtle.goTo(minX, minY);
+	mond_turtle.pendown();
+	mond_turtle.goTo(minX, maxY);
+	mond_turtle.goTo(maxX, maxY);
+	mond_turtle.goTo(maxX, minY);
+	mond_turtle.goTo(minX, minY);
+	mond_turtle.penup();
+	mond_turtle.goTo(maxX / 2, minY);
+	mond_turtle.pendown();
+	mond_turtle.goTo(maxX / 2, maxY);
 
-void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& turtle) {
-	const std::string colormap[] = { "blue", "red", "green", "white" };
-	Getrandom randcolor(3);
+
+
+
+}
+
+void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
+	const std::string colormap[] = { "white", "red", "green","white","yellow","blue"};
+	Getrandom randcolor(5);
 
 	int randval = randcolor.roll();
 	int randx = rand() % (maxX - minX + 1) + minX;
 	int randy = rand() % (maxY - minY + 1) + minY;
 
-	turtle.fillcolor(colormap[randval]);
-	turtle.penup();
-	turtle.goTo(minX, maxY);
-	turtle.pendown();
-	turtle.begin_fill();
-	turtle.goTo(maxX, maxY);
-	//turtle.end_fill();
-	turtle.goTo(maxX, minY);
-	turtle.goTo(minX, minY);
+	mond_turtle.fillcolor(colormap[randval]);
+	mond_turtle.speed(0);
+	
+	mond_turtle.penup();
+	mond_turtle.goTo(minX, maxY);
+	mond_turtle.pendown();
+	mond_turtle.begin_fill();
+	mond_turtle.goTo(maxX, maxY);
+	mond_turtle.end_fill();
+	mond_turtle.penup();
+	mond_turtle.goTo(maxX, minY);
+	mond_turtle.pendown();
+	mond_turtle.goTo(minX, minY);	
+
 	
 
-	if ((maxX - minX) > 400 && (maxY - minY) > 300) {
-		mondrain(minX, randx, randy, maxY, turtle);
-		mondrain(randx, maxX, randy, maxY, turtle);
-		mondrain(randx, maxX, minY, randy, turtle);
-		mondrain(minX, randx, minY, randy, turtle);
+	
+
+	 if ((maxX - minX) > 400 && (maxY - minY) > 300) { // The screen size is 800 by 600 so when the width >400 and height > 300 this runs
+		mondrain(minX, randx, randy, maxY, mond_turtle);
+		mondrain(randx, maxX, randy, maxY, mond_turtle);
+		mondrain(randx, maxX, minY, randy, mond_turtle);
+		mondrain(minX, randx, minY, randy, mond_turtle);
+		
+	 }
+	
+	else if ((maxX - minX) > 400) { // When the region is greater than 400 (width)
+		mondrain(minX, randx, minY, maxY, mond_turtle);
+		mondrain(randx, maxX, minY, maxY, mond_turtle);
 	}
-	else if ((maxX - minX) > 400) {
-		mondrain(minX, randx, minY, maxY, turtle);
-		mondrain(randx, maxX, minY, maxY, turtle);
+	else if ((maxY - minY) > 300) { // when the height is greater than 300
+		mondrain(minX, maxX, randy, maxY, mond_turtle);
+		mondrain(minX, maxX, minY, randy, mond_turtle);
 	}
-	else if ((maxY - minY) > 300) {
-		mondrain(minX, maxX, randy, maxY, turtle);
-		mondrain(minX, maxX, minY, randy, turtle);
+	else if ((maxX - minX) > 150 && (maxY - minY) > 100) { // another random conditon chosen to break the region
+		mondrain(minX, randx, randy, maxY, mond_turtle);
+		mondrain(randx, maxX, randy, maxY, mond_turtle);
+		mondrain(randx, maxX, minY, randy, mond_turtle);
+		mondrain(minX, randx, minY, randy, mond_turtle);
 	}
-	else if ((maxX - minX) > 150 && (maxY - minY) > 100) {
-		mondrain(minX, randx, randy, maxY, turtle);
-		mondrain(randx, maxX, randy, maxY, turtle);
-		mondrain(randx, maxX, minY, randy, turtle);
-		mondrain(minX, randx, minY, randy, turtle);
-	}
-	else if ((maxX - minX) > 150) {
-		mondrain(minX, randx, minY, maxY, turtle);
-		mondrain(randx, maxX, minY, maxY, turtle);
+	else if ((maxX - minX) > 150) { // this runs when the region is wide enough to split.
+		mondrain(minX, randx, minY, maxY, mond_turtle);
+		mondrain(randx, maxX, minY, maxY, mond_turtle);
 
 	}
-	else if ((maxY - minY) > 100) {
-		mondrain(minX, maxX, randy, maxY, turtle);
-		mondrain(minX, maxX, minY, randy, turtle);
+	else if ((maxY - minY) > 100) { // When the height is tall enough to split.
+		mondrain(minX, maxX, randy, maxY, mond_turtle);
+		mondrain(minX, maxX, minY, randy, mond_turtle);
+
+	 }
+	else if ((maxX - minX) > 20 && (maxY - minY) > 20) { // When the height is tall enough to split.
+		 mondrain(minX, maxX, randy, maxY, mond_turtle);
+		 mondrain(minX, maxX, minY, randy, mond_turtle);
 	}
 	else {
-		turtle.penup();		
-		turtle.begin_fill();
-		turtle.goTo(minX, maxY);
-		turtle.pendown();			
-		turtle.goTo(maxX, maxY);		
-		turtle.goTo(maxX, minY);		
-		turtle.goTo(minX, minY);
-		turtle.goTo(minX, maxY);
-		turtle.end_fill();
+		mond_turtle.penup();		
+		mond_turtle.begin_fill();
+		mond_turtle.goTo(minX, maxY);
+		mond_turtle.pendown();			
+		mond_turtle.goTo(maxX, maxY);		
+		mond_turtle.goTo(maxX, minY);		
+		mond_turtle.goTo(minX, minY);
+		mond_turtle.goTo(minX, maxY);
+		mond_turtle.end_fill();
 		
 
 	}
@@ -116,7 +147,8 @@ int main() {
 	int max_Y = 300;
 	ct::TurtleScreen scr; //makes screen
 	ct::Turtle rt(scr);   //makes Turtle on screen
-
+	draw_rectangle(-400, 400, -300, 300,rt);
+	//rt.penup();
 	mondrain(min_X, max_X, min_Y, max_Y, rt);
 
 
