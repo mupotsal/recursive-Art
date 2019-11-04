@@ -71,7 +71,7 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 	int randy = rand() % (maxY - minY + 1) + minY;
 
 	mond_turtle.fillcolor(colormap[randval]);
-	mond_turtle.width(5);
+	
 	mond_turtle.speed(0);	
 	mond_turtle.penup();
 	mond_turtle.begin_fill();
@@ -97,6 +97,7 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 	 }
 	
 	else if ((maxX - minX) > 400) { // When the region is greater than 400 (width)
+		 mond_turtle.width(3);
 		mondrain(minX, randx, minY, maxY, mond_turtle);
 		mondrain(randx, maxX, minY, maxY, mond_turtle);
 	}
@@ -105,6 +106,7 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 		mondrain(minX, maxX, minY, randy, mond_turtle);
 	}
 	else if ((maxX - minX) > 150 && (maxY - minY) > 100) { // another random conditon chosen to break the region
+		 mond_turtle.width(5);
 		mondrain(minX, randx, randy, maxY, mond_turtle);
 		mondrain(randx, maxX, randy, maxY, mond_turtle);
 		mondrain(randx, maxX, minY, randy, mond_turtle);
