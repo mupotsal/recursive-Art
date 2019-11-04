@@ -71,6 +71,7 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 	int randy = rand() % (maxY - minY + 1) + minY;
 
 	mond_turtle.fillcolor(colormap[randval]);
+	mond_turtle.width(5);
 	mond_turtle.speed(0);	
 	mond_turtle.penup();
 	mond_turtle.begin_fill();
