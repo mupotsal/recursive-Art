@@ -71,18 +71,17 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 	int randy = rand() % (maxY - minY + 1) + minY;
 
 	mond_turtle.fillcolor(colormap[randval]);
-	mond_turtle.speed(0);
-	
+	mond_turtle.speed(0);	
 	mond_turtle.penup();
-	mond_turtle.goTo(minX, maxY);
-	mond_turtle.pendown();
 	mond_turtle.begin_fill();
-	mond_turtle.goTo(maxX, maxY);
-	mond_turtle.end_fill();
+	mond_turtle.goTo(minX, maxY);
+	mond_turtle.pendown();	
+	mond_turtle.goTo(maxX, maxY);	
 	mond_turtle.penup();
 	mond_turtle.goTo(maxX, minY);
 	mond_turtle.pendown();
-	mond_turtle.goTo(minX, minY);	
+	mond_turtle.goTo(minX, minY);
+	mond_turtle.end_fill();
 
 	
 
@@ -110,19 +109,19 @@ void mondrain(int minX, int maxX, int minY, int maxY, ct::Turtle& mond_turtle) {
 		mondrain(randx, maxX, minY, randy, mond_turtle);
 		mondrain(minX, randx, minY, randy, mond_turtle);
 	}
-	else if ((maxX - minX) > 150) { // this runs when the region is wide enough to split.
+	else if ((maxX - minX) > 100) { // this runs when the region is wide enough to split.
 		mondrain(minX, randx, minY, maxY, mond_turtle);
 		mondrain(randx, maxX, minY, maxY, mond_turtle);
 
 	}
-	else if ((maxY - minY) > 100) { // When the height is tall enough to split.
+	else if ((maxY - minY) > 50) { // When the height is tall enough to split.
 		mondrain(minX, maxX, randy, maxY, mond_turtle);
 		mondrain(minX, maxX, minY, randy, mond_turtle);
 
 	 }
-	else if ((maxX - minX) > 20 && (maxY - minY) > 20) { // When the height is tall enough to split.
+	else if ((maxX - minX) > 10 && (maxY - minY) >15) { // When the height is tall enough to split.
 		 mondrain(minX, maxX, randy, maxY, mond_turtle);
-		 mondrain(minX, maxX, minY, randy, mond_turtle);
+		mondrain(minX, maxX, minY, randy, mond_turtle);
 	}
 	else {
 		mond_turtle.penup();		
@@ -150,7 +149,7 @@ int main() {
 	draw_rectangle(-400, 400, -300, 300,rt);
 	//rt.penup();
 	mondrain(min_X, max_X, min_Y, max_Y, rt);
-
+	//scr.bgcolor({ "black" });
 
 	Getrandom newrandom(4);
 
